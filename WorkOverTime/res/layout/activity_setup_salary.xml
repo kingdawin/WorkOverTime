@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/detail_subtitle_bg_prsd"
+    android:orientation="vertical" >
+
+    <include layout="@layout/top_bar" />
+
+    <TextView
+        android:clickable="true"
+        android:onClick="clickView"
+        android:id="@+id/tv_month_base_salary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       
+       android:background="@drawable/salary_list_title_bg"
+        android:gravity="left|center_vertical"
+        android:padding="5dp"
+        android:text="月基本工资" />
+
+    <LinearLayout
+        android:id="@+id/linLay_set_salary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/button_times"
+        android:onClick="clickView"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/fankui" >
+
+            <TextView
+                android:id="@+id/tv_normal_salary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="\n元/时" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/big1"
+                android:gravity="center"
+                android:text="平时加班工资"
+                android:textColor="#ffffff" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/fankui" >
+
+            <TextView
+                android:id="@+id/tv_week_salary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="\n元/时" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/big2"
+                android:gravity="center"
+                android:text="周末加班工资"
+                android:textColor="#ffffff" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/fankui" >
+
+            <TextView
+                android:id="@+id/tv_holiday_salary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="\n元/时" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/big3"
+                android:gravity="center"
+                android:text="假日加班工资"
+                android:textColor="#ffffff" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="提示:点击方块，自定义加班小时工资和倍数"
+        android:textColor="#fc0129" />
+
+</LinearLayout>

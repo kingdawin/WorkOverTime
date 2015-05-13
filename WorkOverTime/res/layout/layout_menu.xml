@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:zhy="http://schemas.android.com/apk/res/com.hy2014.workovertime"
+    android:layout_width="250dip"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bitmap_book_read_chapterlist_repeat"
+    android:orientation="vertical" >
+
+    <com.hy2014.workovertime.view.CustomImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        zhy:src="@drawable/default_head"
+        zhy:type="circle" />
+
+    <TextView
+        android:layout_width="250dip"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="王达文"
+        android:textColor="#ff959595"
+        android:textSize="14.0sp" />
+
+    <Button
+        android:id="@+id/tv_salary_month_forecast"
+        android:layout_width="match_parent"
+        android:layout_height="50.0dip"
+        android:background="@drawable/selector_category_item"
+        android:clickable="true"
+        android:drawableLeft="@drawable/ic_category_mark"
+        android:drawablePadding="1.0dip"
+        android:gravity="center_vertical"
+        android:onClick="clickView"
+        android:paddingLeft="15.0dip"
+        android:paddingRight="10.0dip"
+        android:text="月工资预估"
+        android:textColor="#ff959595"
+        android:textSize="16.0sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2.0dip"
+        android:background="@drawable/ic_shelf_category_divider" />
+
+    <Button
+        android:id="@+id/tv_my_salary"
+        android:layout_width="match_parent"
+        android:layout_height="50.0dip"
+        android:background="@drawable/selector_category_item"
+        android:clickable="true"
+        android:drawableLeft="@drawable/ic_category_mark"
+        android:drawablePadding="1.0dip"
+        android:gravity="center_vertical"
+        android:onClick="clickView"
+        android:paddingLeft="15.0dip"
+        android:paddingRight="10.0dip"
+        android:text="我的工资条"
+        android:textColor="#ff959595"
+        android:textSize="16.0sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2.0dip"
+        android:background="@drawable/ic_shelf_category_divider" />
+
+</LinearLayout>

@@ -1,0 +1,55 @@
+<resources>
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <!--
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
+        
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+       
+    </style>
+    -->
+
+
+    <!-- Application theme. -->
+    <!--
+    <style name="AppTheme" parent="AppBaseTheme">
+        All customizations that are NOT specific to a particular API-level can go here.
+    </style>
+    -->
+
+    <style name="item_left">
+        <item name="android:textSize">18.0sp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">72dp</item>
+        <item name="android:background">@drawable/switch_check_selector</item>
+        <item name="android:drawablePadding">15dp</item>
+        <item name="android:paddingLeft">35dp</item>
+        <item name="android:gravity">left|center_vertical</item>
+    </style>
+
+     <!--  android:id="@+id/btn_calendar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:drawableTop="@drawable/btn_cal_click"
+                    android:text="日历"
+                    android:onClick="clickView"
+                    android:textColor="#FFFFFF" -->
+    <style name="bottom_btn">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@null</item>
+        <item name="android:onClick">clickView</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+</resources>

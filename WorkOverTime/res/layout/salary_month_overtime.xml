@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android_custom="http://schemas.android.com/apk/res/com.hy2014.workovertime"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <!-- 本月加班总收入 -->
+
+    <TextView
+        android:id="@+id/tv_salary_month_overtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:text="本月加班总收入"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
+
+    <com.hy2014.workovertime.view.RoundProgressBar
+        android:id="@+id/roundProgressBar_salary_month_overtime"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tv_salary_month_overtime"
+        android:layout_centerInParent="true"
+        android_custom:roundColor="#FF48cef1"
+        android_custom:roundProgressColor="#FF9bdff1"
+        android_custom:roundWidth="10dp"
+        android_custom:textColor="#ffe74da5" />
+
+</RelativeLayout>

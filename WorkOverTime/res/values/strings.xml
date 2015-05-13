@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">记加班2</string>
+    <string name="welcome">Welcome WorkOverTimeApp</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_my_activity2">MyActivity2</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
+    <!-- 带下划线的字体 -->
+  <!--   <string name="return0"><u>返回</u></string> -->
+    <string name="return0">返回</string> 
+    
+    
+<!-- 左边页面 -->
+   <string name="pics">图片</string>
+   <string name="video">视频</string>
+   <string name="ties">消息</string>
+   <string name="tianqi">天气</string>
+   <string name="more">更多</string>
+    
+</resources>

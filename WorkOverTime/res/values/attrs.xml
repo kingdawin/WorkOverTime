@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 自定义View PieChart的xml属性 -->
+    <declare-styleable name="PieChart">
+
+        <!-- <attr name="showText" format="boolean" /> -->
+        <attr name="labelPosition" format="enum">
+            <enum name="left" value="0" />
+            <enum name="right" value="1" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="MyView">
+        <attr name="circleColor" format="color" />
+        <attr name="textSize" format="dimension" />
+    </declare-styleable>
+    
+    <!-- 动态圆环属性 -->
+    <declare-styleable name="RoundProgressBar">
+        <attr name="roundColor" format="color" />
+        <attr name="roundProgressColor" format="color" />
+        <attr name="roundWidth" format="dimension"></attr>
+        <attr name="textColor" format="color" />
+        <attr name="textSize0" format="dimension" />
+        <attr name="max" format="integer"></attr>
+        <attr name="textIsDisplayable" format="boolean"></attr>
+        <attr name="style">
+            <enum name="STROKE" value="0"></enum>
+            <enum name="FILL" value="1"></enum>
+        </attr>
+    </declare-styleable>
+
+     <attr name="borderRadius" format="dimension" />  
+    <attr name="type">  
+        <enum name="circle" value="0" />  
+        <enum name="round" value="1" />  
+    </attr>  
+    <attr name="src" format="reference"></attr>  
+  
+    <declare-styleable name="CustomImageView">  
+        <attr name="borderRadius" />  
+        <attr name="type" />  
+        <attr name="src" />  
+    </declare-styleable>  
+    
+</resources>
+<!--
+在布局中使用该属性，示例：
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:custom="http://schemas.android.com/apk/res/com.example.customviews">
+<com.example.customviews.charting.PieChart
+     custom:showText="true"
+     custom:labelPosition="left" />
+</LinearLayout>
+
+注意自定义命名空间和android本身的空间都必须要有。
+-->
