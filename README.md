@@ -7,9 +7,13 @@ record work overtime 记加班安卓App
 功能：
 1实时画圆环控件RoundProgressBar，继承view重写onDraw方法：外圆空心，内圆实心，圆环通过线程控制速度。
 控件属性的自定义和使用：values文件夹下创建attrs文件
+
 2获取当天日期，setToday()
+
 3获取本周开始和结束日期
+
 4圆角按钮：样式文件在drawalbe/button_shape.xml
+
 5ViewPager的使用:装填了3个圆环控件，每次切换都会重绘当前的圆环，注册页面切换监听器OnPageChangeListener，实现页面下标的改变
 
 6底部导航栏界面的设计：由3个button构成，权重相等，利用android:drawableTop属性设置图片在按钮顶部
