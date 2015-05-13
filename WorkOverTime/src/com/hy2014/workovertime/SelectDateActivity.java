@@ -30,6 +30,7 @@ public class SelectDateActivity extends Activity
 	private TextView tvToday;
 	private TextView tvOverTime;
 	private TextView tvRequestRest;
+	/**data： 1日期 2日期类型 3加班时数 4加班开始时间 5加班结束时间*/ 
 	private String data[] = new String[5];
 	private float selectNumber = 0.0F;
 	private int currentId;
@@ -92,10 +93,11 @@ public class SelectDateActivity extends Activity
 		case R.id.btnCancle:
 			finish();
 			break;
+			//保存加班时数到数据
 		case R.id.confirm:
 
 			OverTimeDao overTimeDao = new OverTimeDao(context);
-
+			// data： 1日期 2日期类型 3加班时数 4加班开始时间 5加班结束时间
 			data[0] = getIntent().getStringExtra("dateSave");
 			data[1] = String.valueOf(getIntent().getIntExtra("dateType", -1));
 			data[2] = String.valueOf(selectNumber);
@@ -106,7 +108,7 @@ public class SelectDateActivity extends Activity
 				LogUtil.e("data[" + i + "] " + data[i]);
 			}
 			overTimeDao.add(data);
-			// data： 1日期 2日期类型 3加班时数 4加班开始时间 5加班结束时间
+			
 			finish();
 			break;
 		}

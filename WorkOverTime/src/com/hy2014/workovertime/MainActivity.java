@@ -26,6 +26,11 @@ import android.widget.Toast;
 //TODO 待增加模块：
 //日期选择，选择加班时数，保存
 
+/**
+ * 主界面
+ * @author KingDawin
+ *
+ */
 @SuppressLint("SimpleDateFormat")
 public class MainActivity extends BaseActivity
 {
@@ -49,11 +54,10 @@ public class MainActivity extends BaseActivity
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
-	{
-		LogUtil.v("[MainActivity] onCreate");
+	{		
 		super.onCreate(savedInstanceState);
+		LogUtil.v("[MainActivity] onCreate");
 		setContentView(R.layout.activity_main);
-
 		context = this;
 		firstStart = true;
 		init();
@@ -422,6 +426,10 @@ public class MainActivity extends BaseActivity
 		}).start();
 	}
 
+	/**
+	 * 点击事件
+	 * @param v
+	 */
 	public void clickView(View v)
 	{
 		Intent intent;

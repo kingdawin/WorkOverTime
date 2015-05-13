@@ -30,34 +30,4 @@ public class BaseActivity extends Activity
 	{
 		finish();
 	}
-
-	// 使进度条10秒内完成进度
-	ProgressBar progressBar;
-	int currentProgress = 0;
-
-	public void progress()
-	{
-
-		Thread thread = new Thread()
-		{
-			public void run()
-			{
-				while (currentProgress < progressBar.getMax())
-				{
-					currentProgress += progressBar.getMax() / 10;
-					progressBar.setProgress(currentProgress);
-					try
-					{
-						Thread.sleep(1000);
-					} catch (InterruptedException e)
-					{
-						e.printStackTrace();
-					}
-				}
-			};
-
-		};
-		thread.start();
-
-	}
 }
