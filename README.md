@@ -1,5 +1,12 @@
-仿“记加班”程序，做的应用，包括以下功能：
-1实时画圆环控件RoundProgressBar，继承view重写onDraw方法：外圆空心，内圆实心，圆环通过线程控制速度。
+# WorkOverTime
+record work overtime 记加班安卓App
+
+依赖库:
+日历控件https://github.com/square/android-times-square
+
+功能：
+
+1 实时画圆环控件RoundProgressBar，继承view重写onDraw方法：外圆空心，内圆实心，圆环通过线程控制速度。
 控件属性的自定义和使用：values文件夹下创建attrs文件
 
 2获取当天日期，setToday()
@@ -22,3 +29,4 @@
 10日历模块：选择日历的日期记加班
 
 11设置模块:设置基本工资，平时工资，周末工资，假日工资。刷新界面数据
+
