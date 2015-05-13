@@ -16,19 +16,19 @@ import android.widget.Scroller;
 
 public class SlideMenu extends ViewGroup
 {
-	//菜单界面
+	// 菜单界面
 	public static final int SCREEN_MENU = 0;
-	//主界面
-	public static final int SCREEN_MAIN = 1;	
+	// 主界面
+	public static final int SCREEN_MAIN = 1;
 	private static final int SCREEN_INVALID = -1;
-	//当前界面
+	// 当前界面
 	private int mCurrentScreen;
 	private int mNextScreen = SCREEN_INVALID;
-	//这个类封装了滚动操作。滚动的持续时间可以通过构造函数传递，并且可以指定滚动动作的持续的最长时间。
-	//经过这段时间，滚动会自动定位到最终位置，并且通过computeScrollOffset()会得到的返回值为false，表明滚动动作已经结束。
+	// 这个类封装了滚动操作。滚动的持续时间可以通过构造函数传递，并且可以指定滚动动作的持续的最长时间。
+	// 经过这段时间，滚动会自动定位到最终位置，并且通过computeScrollOffset()会得到的返回值为false，表明滚动动作已经结束。
 	private Scroller mScroller;
 	private VelocityTracker mVelocityTracker;
-	//用户滑动
+	// 用户滑动
 	private int mTouchSlop;
 
 	private float mLastMotionX;
@@ -42,22 +42,26 @@ public class SlideMenu extends ViewGroup
 	private boolean mLocked;
 	private boolean mAllowLongPress;
 
-	public SlideMenu(Context context) {
+	public SlideMenu(Context context)
+	{
 		this(context, null, 0);
 	}
 
-	public SlideMenu(Context context, AttributeSet attrs) {
+	public SlideMenu(Context context, AttributeSet attrs)
+	{
 		this(context, attrs, 0);
 	}
 
-	public SlideMenu(Context context, AttributeSet attrs, int defStyle) {
+	public SlideMenu(Context context, AttributeSet attrs, int defStyle)
+	{
 		super(context, attrs, defStyle);
 
 		mScroller = new Scroller(getContext());
 		mCurrentScreen = SCREEN_MAIN;
-		//Distance in pixels a touch can wander before we think the user is scrolling
-		mTouchSlop =ViewConfiguration.get(getContext()).getScaledTouchSlop();
-		//mTouchSlop =100;
+		// Distance in pixels a touch can wander before we think the user is
+		// scrolling
+		mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+		// mTouchSlop =100;
 	}
 
 	@Override
@@ -81,9 +85,9 @@ public class SlideMenu extends ViewGroup
 	{
 		int childCount = getChildCount();
 		if (childCount != 2)
-			{
-				throw new IllegalStateException("The childCount of SlidingMenu must be 2");
-			}
+		{
+			throw new IllegalStateException("The childCount of SlidingMenu must be 2");
+		}
 
 		View menuView = getChildAt(0);
 		final int width = menuView.getMeasuredWidth();
@@ -99,26 +103,26 @@ public class SlideMenu extends ViewGroup
 		super.onFinishInflate();
 		View child;
 		for (int i = 0; i < getChildCount(); i++)
-			{
-				child = getChildAt(i);
-				child.setFocusable(true);
-				child.setClickable(true);
-			}
+		{
+			child = getChildAt(i);
+			child.setFocusable(true);
+			child.setClickable(true);
+		}
 	}
-	
+
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev)
 	{
 
 		if (mLocked)
-			{
-				return true;
-			}
+		{
+			return true;
+		}
 		final int action = ev.getAction();
 		if ((action == MotionEvent.ACTION_MOVE) && (mTouchState != TOUCH_STATE_REST))
-			{
-				return true;
-			}
+		{
+			return true;
+		}
 
 		final float x = ev.getX();
 		final float y = ev.getY();
@@ -126,80 +130,63 @@ public class SlideMenu extends ViewGroup
 		switch (action)
 		{
 		case MotionEvent.ACTION_MOVE:
-		//	LogUtil.w("ACTION_MOVE");
-			/*if ( mCurrentScreen == SCREEN_MAIN)
-				{
-					LogUtil.e("SCREEN_MAIN");
-				}
-			if ( mCurrentScreen == SCREEN_MENU)
-				{
-					LogUtil.e("SCREEN_MENU");
-				}*/
+			// LogUtil.w("ACTION_MOVE");
+			/*
+			 * if ( mCurrentScreen == SCREEN_MAIN) { LogUtil.e("SCREEN_MAIN"); }
+			 * if ( mCurrentScreen == SCREEN_MENU) { LogUtil.e("SCREEN_MENU"); }
+			 */
 			/*-----------------------判断滑动范围-----------------------*/
 			final int xDiff = (int) Math.abs(x - mLastMotionX);
 			final int yDiff = (int) Math.abs(y - mLastMotionY);
-			//LogUtil.e("mTouchSlop="+mTouchSlop);
+			// LogUtil.e("mTouchSlop="+mTouchSlop);
 			final int touchSlop = mTouchSlop;
 			boolean xMoved = xDiff > touchSlop;
 			boolean yMoved = yDiff > touchSlop;
 			if (xMoved || yMoved)
-			//切换界面的条件
-			if ((x < 200 && mCurrentScreen == SCREEN_MAIN) || (x > getWidth() - 200 && mCurrentScreen == SCREEN_MENU))
+				// 切换界面的条件
+				if ((x < 200 && mCurrentScreen == SCREEN_MAIN)
+						|| (x > getWidth() - 200 && mCurrentScreen == SCREEN_MENU))
 				{
 					mTouchState = TOUCH_STATE_SCROLLING;
 					enableChildrenCache();
 					// Either way, cancel any pending longpress
 					if (mAllowLongPress)
-						{
-							mAllowLongPress = false;
-							// Try canceling the long press. It could also have
-							// been
-							// scheduled
-							// by a distant descendant, so use the
-							// mAllowLongPress flag
-							// to block
-							// everything
-							final View currentScreen = getChildAt(mCurrentScreen);
-							currentScreen.cancelLongPress();
-						}			
+					{
+						mAllowLongPress = false;
+						// Try canceling the long press. It could also have
+						// been
+						// scheduled
+						// by a distant descendant, so use the
+						// mAllowLongPress flag
+						// to block
+						// everything
+						final View currentScreen = getChildAt(mCurrentScreen);
+						currentScreen.cancelLongPress();
+					}
 				}
 			/*--------------------------原始代码，不判断滑动范围----------------------------*/
-			/*final int xDiff = (int) Math.abs(x - mLastMotionX);
-			final int yDiff = (int) Math.abs(y - mLastMotionY);
-
-			final int touchSlop = mTouchSlop;
-			boolean xMoved = xDiff > touchSlop;
-			boolean yMoved = yDiff > touchSlop;
-
-			if (xMoved || yMoved)
-				{
-
-					if (xMoved)
-						{
-							// Scroll if the user moved far enough along the X
-							// axis
-							mTouchState = TOUCH_STATE_SCROLLING;
-							enableChildrenCache();
-						}
-					// Either way, cancel any pending longpress
-					if (mAllowLongPress)
-						{
-							mAllowLongPress = false;
-							// Try canceling the long press. It could also have
-							// been
-							// scheduled
-							// by a distant descendant, so use the
-							// mAllowLongPress flag
-							// to block
-							// everything
-							final View currentScreen = getChildAt(mCurrentScreen);
-							currentScreen.cancelLongPress();
-						}
-				}*/
+			/*
+			 * final int xDiff = (int) Math.abs(x - mLastMotionX); final int
+			 * yDiff = (int) Math.abs(y - mLastMotionY);
+			 * 
+			 * final int touchSlop = mTouchSlop; boolean xMoved = xDiff >
+			 * touchSlop; boolean yMoved = yDiff > touchSlop;
+			 * 
+			 * if (xMoved || yMoved) {
+			 * 
+			 * if (xMoved) { // Scroll if the user moved far enough along the X
+			 * // axis mTouchState = TOUCH_STATE_SCROLLING;
+			 * enableChildrenCache(); } // Either way, cancel any pending
+			 * longpress if (mAllowLongPress) { mAllowLongPress = false; // Try
+			 * canceling the long press. It could also have // been // scheduled
+			 * // by a distant descendant, so use the // mAllowLongPress flag //
+			 * to block // everything final View currentScreen =
+			 * getChildAt(mCurrentScreen); currentScreen.cancelLongPress(); } }
+			 */
 			break;
 
 		case MotionEvent.ACTION_DOWN:
-			//LogUtil.w("ACTION_DOWN");
+			// LogUtil.w("ACTION_DOWN");
 			// Remember location of down touch
 			mLastMotionX = x;
 			mLastMotionY = y;
@@ -209,7 +196,7 @@ public class SlideMenu extends ViewGroup
 
 		case MotionEvent.ACTION_CANCEL:
 		case MotionEvent.ACTION_UP:
-			//LogUtil.w("ACTION_CANCEL|ACTION_UP");
+			// LogUtil.w("ACTION_CANCEL|ACTION_UP");
 			// Release the drag
 			clearChildrenCache();
 			mTouchState = TOUCH_STATE_REST;
@@ -223,8 +210,7 @@ public class SlideMenu extends ViewGroup
 		 */
 		return mTouchState != TOUCH_STATE_REST;
 	}
-	
-	
+
 	/**
 	 * 打开
 	 */
@@ -232,11 +218,12 @@ public class SlideMenu extends ViewGroup
 	{
 		final int count = getChildCount();
 		for (int i = 0; i < count; i++)
-			{
-				final View layout = (View) getChildAt(i);
-				layout.setDrawingCacheEnabled(true);
-			}
+		{
+			final View layout = (View) getChildAt(i);
+			layout.setDrawingCacheEnabled(true);
+		}
 	}
+
 	/**
 	 * 关闭
 	 */
@@ -244,25 +231,25 @@ public class SlideMenu extends ViewGroup
 	{
 		final int count = getChildCount();
 		for (int i = 0; i < count; i++)
-			{
-				final View layout = (View) getChildAt(i);
-				layout.setDrawingCacheEnabled(false);
-			}
+		{
+			final View layout = (View) getChildAt(i);
+			layout.setDrawingCacheEnabled(false);
+		}
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent ev)
 	{
 		if (mLocked)
-			{
-				return true;
-			}
+		{
+			return true;
+		}
 
 		if (mVelocityTracker == null)
-			{
-				mVelocityTracker = VelocityTracker.obtain();
-			}
-		
+		{
+			mVelocityTracker = VelocityTracker.obtain();
+		}
+
 		mVelocityTracker.addMovement(ev);
 
 		final int action = ev.getAction();
@@ -276,66 +263,67 @@ public class SlideMenu extends ViewGroup
 			 * will be false if being flinged.
 			 */
 			if (!mScroller.isFinished())
-				{
-					mScroller.abortAnimation();
-				}
+			{
+				mScroller.abortAnimation();
+			}
 
 			// Remember where the motion event started
 			mLastMotionX = x;
 			break;
 		case MotionEvent.ACTION_MOVE:
 			if (mTouchState == TOUCH_STATE_SCROLLING)
+			{
+				// Scroll to follow the motion event
+				final int deltaX = (int) (mLastMotionX - x);
+				mLastMotionX = x;
+
+				if (deltaX < 0)
 				{
-					// Scroll to follow the motion event
-					final int deltaX = (int) (mLastMotionX - x);
-					mLastMotionX = x;
+					if (deltaX + getScrollX() >= -getChildAt(0).getWidth())
+					{
+						scrollBy(deltaX, 0);
+					}
 
-					if (deltaX < 0)
-						{
-							if (deltaX + getScrollX() >= -getChildAt(0).getWidth())
-								{
-									scrollBy(deltaX, 0);
-								}
+				} else if (deltaX > 0)
+				{
+					final int availableToScroll = getChildAt(getChildCount() - 1).getRight() - getScrollX()
+							- getWidth();
 
-						} else if (deltaX > 0)
-						{
-							final int availableToScroll = getChildAt(getChildCount() - 1).getRight() - getScrollX() - getWidth();
-
-							if (availableToScroll > 0)
-								{
-									scrollBy(Math.min(availableToScroll, deltaX), 0);
-								}
-						}
+					if (availableToScroll > 0)
+					{
+						scrollBy(Math.min(availableToScroll, deltaX), 0);
+					}
 				}
+			}
 			break;
 		case MotionEvent.ACTION_UP:
 			if (mTouchState == TOUCH_STATE_SCROLLING)
+			{
+				final VelocityTracker velocityTracker = mVelocityTracker;
+				velocityTracker.computeCurrentVelocity(1000);
+				int velocityX = (int) velocityTracker.getXVelocity();
+
+				if (velocityX > SNAP_VELOCITY && mCurrentScreen == SCREEN_MAIN)
 				{
-					final VelocityTracker velocityTracker = mVelocityTracker;
-					velocityTracker.computeCurrentVelocity(1000);
-					int velocityX = (int) velocityTracker.getXVelocity();
-
-					if (velocityX > SNAP_VELOCITY && mCurrentScreen == SCREEN_MAIN)
-						{
-							// Fling hard enough to move left
-							snapToScreen(SCREEN_MENU);
-							//LogUtil.e("snapToScreen(SCREEN_MENU);");
-						} else if (velocityX < -SNAP_VELOCITY && mCurrentScreen == SCREEN_MENU)
-						{
-							// Fling hard enough to move right
-							snapToScreen(SCREEN_MAIN);
-							//LogUtil.e("snapToScreen(SCREEN_MAIN);");
-						} else
-						{
-							snapToDestination();
-						}
-
-					if (mVelocityTracker != null)
-						{
-							mVelocityTracker.recycle();
-							mVelocityTracker = null;
-						}
+					// Fling hard enough to move left
+					snapToScreen(SCREEN_MENU);
+					// LogUtil.e("snapToScreen(SCREEN_MENU);");
+				} else if (velocityX < -SNAP_VELOCITY && mCurrentScreen == SCREEN_MENU)
+				{
+					// Fling hard enough to move right
+					snapToScreen(SCREEN_MAIN);
+					// LogUtil.e("snapToScreen(SCREEN_MAIN);");
+				} else
+				{
+					snapToDestination();
 				}
+
+				if (mVelocityTracker != null)
+				{
+					mVelocityTracker.recycle();
+					mVelocityTracker = null;
+				}
+			}
 			mTouchState = TOUCH_STATE_REST;
 			break;
 		case MotionEvent.ACTION_CANCEL:
@@ -351,19 +339,19 @@ public class SlideMenu extends ViewGroup
 	{
 
 		if (mScroller.computeScrollOffset())
-			{
-				//LogUtil.i("computeScroll() scrollTo ");
-				scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
-				
-			} 
-		//TODO：mCurrentScreen 不正确 
+		{
+			// LogUtil.i("computeScroll() scrollTo ");
+			scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+
+		}
+		// TODO：mCurrentScreen 不正确
 		else if (mNextScreen != SCREEN_INVALID)
-			{
-			//	LogUtil.i("computeScroll()   clearChildrenCache()");
-				mCurrentScreen = Math.max(0, Math.min(mNextScreen, getChildCount() - 1));
-				mNextScreen = SCREEN_INVALID;
-				clearChildrenCache();
-			}
+		{
+			// LogUtil.i("computeScroll()   clearChildrenCache()");
+			mCurrentScreen = Math.max(0, Math.min(mNextScreen, getChildCount() - 1));
+			mNextScreen = SCREEN_INVALID;
+			clearChildrenCache();
+		}
 	}
 
 	@Override
@@ -385,25 +373,26 @@ public class SlideMenu extends ViewGroup
 	public boolean dispatchUnhandledMove(View focused, int direction)
 	{
 		if (direction == View.FOCUS_LEFT)
+		{
+			if (getCurrentScreen() > 0)
 			{
-				if (getCurrentScreen() > 0)
-					{
-						snapToScreen(getCurrentScreen() - 1);
-						return true;
-					}
-			} else if (direction == View.FOCUS_RIGHT)
-			{
-				if (getCurrentScreen() < getChildCount() - 1)
-					{
-						snapToScreen(getCurrentScreen() + 1);
-						return true;
-					}
+				snapToScreen(getCurrentScreen() - 1);
+				return true;
 			}
+		} else if (direction == View.FOCUS_RIGHT)
+		{
+			if (getCurrentScreen() < getChildCount() - 1)
+			{
+				snapToScreen(getCurrentScreen() + 1);
+				return true;
+			}
+		}
 		return super.dispatchUnhandledMove(focused, direction);
 	}
 
 	/**
 	 * 滑动到指定界面
+	 * 
 	 * @param whichScreen
 	 */
 	protected void snapToScreen(int whichScreen)
@@ -415,12 +404,12 @@ public class SlideMenu extends ViewGroup
 		boolean changingScreens = whichScreen != mCurrentScreen;
 
 		mNextScreen = whichScreen;
-	
+
 		View focusedChild = getFocusedChild();
 		if (focusedChild != null && changingScreens && focusedChild == getChildAt(mCurrentScreen))
-			{
-				focusedChild.clearFocus();
-			}
+		{
+			focusedChild.clearFocus();
+		}
 
 		final int newX = (whichScreen - 1) * getChildAt(0).getWidth();
 		final int delta = newX - getScrollX();
@@ -431,9 +420,9 @@ public class SlideMenu extends ViewGroup
 	protected void snapToDestination()
 	{
 		if (getScrollX() == 0)
-			{
-				return;
-			}
+		{
+			return;
+		}
 		final int screenWidth = getChildAt(0).getWidth();
 		final int whichScreen = (screenWidth + getScrollX() + (screenWidth / 2)) / screenWidth;
 		snapToScreen(whichScreen);
@@ -470,5 +459,4 @@ public class SlideMenu extends ViewGroup
 	{
 		mLocked = true;
 	}
-//通信 飞秋 电话卡 硝烟
 }

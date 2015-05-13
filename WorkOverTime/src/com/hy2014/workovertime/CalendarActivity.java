@@ -19,6 +19,10 @@ import com.squareup.timessquare.CalendarPickerView.SelectionMode;
 import android.content.Intent;
 import android.os.Bundle;
 
+/**
+ * @author KingDawin
+ *
+ */
 public class CalendarActivity extends BaseActivity
 {
 	private CalendarPickerView calendar;
@@ -27,6 +31,7 @@ public class CalendarActivity extends BaseActivity
 	private final int NORMAL_DATE = 1;
 	// 周末日期
 	private final int WEEK_DATE = 2;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -65,19 +70,19 @@ public class CalendarActivity extends BaseActivity
 				// 显示给用户的格式
 				final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
 				String selectDateSave = sdfSave.format(calendar.getSelectedDate());
-				//LogUtil.i("选择了日期---->" + selectDateSave);
+				// LogUtil.i("选择了日期---->" + selectDateSave);
 				selectDate = sdf.format(calendar.getSelectedDate());
-				//LogUtil.i("选择了日期---->" + selectDate);
+				// LogUtil.i("选择了日期---->" + selectDate);
 				Intent intent = new Intent(CalendarActivity.this, SelectDateActivity.class);
 				intent.putExtra("date", selectDate);
 				intent.putExtra("dateSave", selectDateSave);
 				try
-					{
-						intent.putExtra("dateType", dateType());
-					} catch (ParseException e)
-					{
-						e.printStackTrace();
-					}
+				{
+					intent.putExtra("dateType", dateType());
+				} catch (ParseException e)
+				{
+					e.printStackTrace();
+				}
 				startActivity(intent);
 			}
 		});
@@ -90,14 +95,5 @@ public class CalendarActivity extends BaseActivity
 		// getDay一周的第几天。[周日,周六][0,6]
 		return date.getDay() > 0 && date.getDay() < 6 ? NORMAL_DATE : WEEK_DATE;
 	}
-	
-}
-//1如何使用内容提供者
-//创建一个你自己的content provider 或者把你的数据放到已存在的content  provider中
-//2启动服务的方法
-/*startService bindService
- * 3 
- * 
- * 
- * */
 
+}

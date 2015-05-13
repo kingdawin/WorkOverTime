@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 /**
  * 加班数选择
+ * 
  * @author Dawin
  *
  */
@@ -29,13 +30,11 @@ public class SelectDateActivity extends Activity
 	private TextView tvToday;
 	private TextView tvOverTime;
 	private TextView tvRequestRest;
-	// private String selectDate;
-	// local var
 	private String data[] = new String[5];
 	private float selectNumber = 0.0F;
 	private int currentId;
 	private int oldId = -1;
-		
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -48,7 +47,7 @@ public class SelectDateActivity extends Activity
 		tvOverTime = (TextView) findViewById(R.id.tv_overtime);
 		tvRequestRest = (TextView) findViewById(R.id.tv_request_rest);
 		// 默认为今天
-		tvToday.setText(getIntent().getStringExtra("date")+"");
+		tvToday.setText(getIntent().getStringExtra("date") + "");
 
 		tvOverTime.setTextColor(0xff3fb9ed);
 		// tvOverTime.setBackgroundColor(0xffffffff);
@@ -94,26 +93,24 @@ public class SelectDateActivity extends Activity
 			finish();
 			break;
 		case R.id.confirm:
-			
-			OverTimeDao overTimeDao=new OverTimeDao(context);
-			
-			data[0]=getIntent().getStringExtra("dateSave");
-			data[1]=String.valueOf(getIntent().getIntExtra("dateType",-1));			
-			data[2]=String.valueOf(selectNumber);
-			data[3]="";
-			data[4]="";
-			for(int i=0;i<5;i++)
-				{					
-					LogUtil.e("data["+i+"] "+data[i]);
-				}
+
+			OverTimeDao overTimeDao = new OverTimeDao(context);
+
+			data[0] = getIntent().getStringExtra("dateSave");
+			data[1] = String.valueOf(getIntent().getIntExtra("dateType", -1));
+			data[2] = String.valueOf(selectNumber);
+			data[3] = "";
+			data[4] = "";
+			for (int i = 0; i < 5; i++)
+			{
+				LogUtil.e("data[" + i + "] " + data[i]);
+			}
 			overTimeDao.add(data);
-			//data： 1日期 2日期类型 3加班时数 4加班开始时间 5加班结束时间
+			// data： 1日期 2日期类型 3加班时数 4加班开始时间 5加班结束时间
 			finish();
 			break;
 		}
 	}
-	
-	
 
 	// 选择时间，改变当前id和当前按钮背景蓝色。之前被选中的按钮设为未选中
 	public void pickNumber(View view)
@@ -329,13 +326,14 @@ public class SelectDateActivity extends Activity
 			currentId = R.id.time23_5;
 			break;
 		}
-		((Button) findViewById(currentId)).setBackgroundColor(0xff17b4fb);;
+		((Button) findViewById(currentId)).setBackgroundColor(0xff17b4fb);
+		
 		((Button) findViewById(currentId)).setTextColor(0xffffffff);
 		if (oldId != -1 && oldId != currentId)
-			{
-				((Button) findViewById(oldId)).setBackgroundResource(R.drawable.checkbox);
-				((Button) findViewById(oldId)).setTextColor(0xff000000);
-			}
+		{
+			((Button) findViewById(oldId)).setBackgroundResource(R.drawable.checkbox);
+			((Button) findViewById(oldId)).setTextColor(0xff000000);
+		}
 		oldId = currentId;
 	}
 }

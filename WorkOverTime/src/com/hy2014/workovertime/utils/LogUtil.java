@@ -5,8 +5,7 @@ import android.util.Log;
 /**
  * 日志工具类
  * 
- * @author Dawin 
- * DEBUG:控制日志是否打印
+ * @author Dawin DEBUG:控制日志是否打印
  */
 public class LogUtil
 {

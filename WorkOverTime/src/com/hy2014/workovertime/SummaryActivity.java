@@ -28,28 +28,32 @@ import android.widget.ListView;
 public class SummaryActivity extends BaseActivity
 {
 	private OverTimeDao overTimeDao;
-	private ArrayList<HashMap<String, Object>>  overtimeDatas;
+	private ArrayList<HashMap<String, Object>> overtimeDatas;
 	private SummaryAdapter summaryAdapter;
 	private ListView lvSummaryData;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		//savedInstanceState Bundle contains the data it most recently supplied in onSaveInstanceState.
+		// savedInstanceState Bundle contains the data it most recently supplied
+		// in onSaveInstanceState.
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_summary);
-		overTimeDao=new OverTimeDao(context);	
-		overtimeDatas = new ArrayList<HashMap<String,Object>>();
+		overTimeDao = new OverTimeDao(context);
+		overtimeDatas = new ArrayList<HashMap<String, Object>>();
 		overtimeDatas = overTimeDao.selectOvertimeDatas();
-		summaryAdapter=new SummaryAdapter(context, overtimeDatas);
-		
-		lvSummaryData=(ListView)findViewById(R.id.lvSummaryData);
+		summaryAdapter = new SummaryAdapter(context, overtimeDatas);
+
+		lvSummaryData = (ListView) findViewById(R.id.lvSummaryData);
 		lvSummaryData.setAdapter(summaryAdapter);
 	}
-	//保存数据
-	@Override  
-	protected void onSaveInstanceState(Bundle outState) {    
-	    Log.v("WorkOverTime", "onSaveInstanceState");  
-	    super.onSaveInstanceState(outState);  
-	}  
-	
+
+	// 保存数据
+	@Override
+	protected void onSaveInstanceState(Bundle outState)
+	{
+		Log.v("WorkOverTime", "onSaveInstanceState");
+		super.onSaveInstanceState(outState);
+	}
+
 }

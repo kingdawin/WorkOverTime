@@ -48,29 +48,29 @@ public class SetSalaryActivity extends BaseActivity
 		float salary[] = new float[3];
 		// 输入的数值
 		try
-			{
-				salary[0] = Float.parseFloat(etNormalSalary.getText().toString().trim());
-			} catch (Exception e)
-			{
-				Toast.makeText(context, "etNormalSalary输入有误", 1).show();
-				return;
-			}
+		{
+			salary[0] = Float.parseFloat(etNormalSalary.getText().toString().trim());
+		} catch (Exception e)
+		{
+			Toast.makeText(context, "etNormalSalary输入有误", 1).show();
+			return;
+		}
 		try
-			{
-				salary[1] = Float.parseFloat(etWeekSalary.getText().toString().trim());
-			} catch (Exception e)
-			{
-				Toast.makeText(context, "etWeekSalary输入有误", 1).show();
-				return;
-			}
+		{
+			salary[1] = Float.parseFloat(etWeekSalary.getText().toString().trim());
+		} catch (Exception e)
+		{
+			Toast.makeText(context, "etWeekSalary输入有误", 1).show();
+			return;
+		}
 		try
-			{
-				salary[2] = Float.parseFloat(etHolidaySalary.getText().toString().trim());
-			} catch (Exception e)
-			{
-				Toast.makeText(context, "etHolidaySalary输入有误", 1).show();
-				return;
-			}
+		{
+			salary[2] = Float.parseFloat(etHolidaySalary.getText().toString().trim());
+		} catch (Exception e)
+		{
+			Toast.makeText(context, "etHolidaySalary输入有误", 1).show();
+			return;
+		}
 
 		switch (view.getId())
 		{

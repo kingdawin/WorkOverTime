@@ -25,10 +25,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 //TODO 待增加模块：
 //日期选择，选择加班时数，保存
-//
+
 @SuppressLint("SimpleDateFormat")
 public class MainActivity extends BaseActivity
-{	
+{
 	// 今天
 	public static String today;
 	private TextView tv_today;
@@ -44,28 +44,29 @@ public class MainActivity extends BaseActivity
 
 	private SlidingPaneLayout slidingPaneLayout;
 	private int currentIndex = 0;
-	//加班总时数
-	private float overtimeHours=0.0F;
+	// 加班总时数
+	private float overtimeHours = 0.0F;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		LogUtil.v("[MainActivity] onCreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+
 		context = this;
-		firstStart=true;		
+		firstStart = true;
 		init();
-	}	
-	
+	}
+
 	@Override
 	protected void onResume()
 	{
-		
+
 		// TODO 数据更新，要在resume方法
 		super.onResume();
-		if(firstStart==false)
-		drawMoveCircle(currentIndex);
+		if (firstStart == false)
+			drawMoveCircle(currentIndex);
 	}
 
 	public static final int WEEK_ADD = 2;
@@ -118,24 +119,27 @@ public class MainActivity extends BaseActivity
 		{
 		}
 	}
-    private static boolean firstStart;
-	private static final String weekDay[] = new String[] {"日", "一", "二", "三", "四", "五", "六" };
+
+	private static boolean firstStart;
+	private static final String weekDay[] = new String[] { "日", "一", "二", "三", "四", "五", "六" };
 	private String dateSave;
+
 	public void setToday()
 	{
 		Date date = new Date();
 		final SimpleDateFormat sdfSave = new SimpleDateFormat("yyyyMMdd", Locale.CHINA);
-		dateSave= sdfSave.format(date);	
-		dateType=date.getDay()>0&&date.getDay()<6?1:2;
-		today = new StringBuffer().append(dateToDateStr(date, "MM月dd")).append("周").append(weekDay[date.getDay()]).toString();
+		dateSave = sdfSave.format(date);
+		dateType = date.getDay() > 0 && date.getDay() < 6 ? 1 : 2;
+		today = new StringBuffer().append(dateToDateStr(date, "MM月dd")).append("周").append(weekDay[date.getDay()])
+				.toString();
 	}
 
 	public void init()
 	{
-		
-		overTimeDao=new OverTimeDao(context);
+
+		overTimeDao = new OverTimeDao(context);
 		slideMenu = (SlideMenu) findViewById(R.id.slide_menu);
-		
+
 		LogUtil.w("getDateRange(int dateRangeId)=" + getDateRange(SALARY_MONTH));
 		// 将要分页显示的View装入数组中，共3页
 		LayoutInflater mLi = LayoutInflater.from(this);
@@ -178,12 +182,12 @@ public class MainActivity extends BaseActivity
 			@Override
 			public Object instantiateItem(View container, int position)
 			{
-				if(firstStart&&position==0)
-					{
-					drawMoveCircle(0);	
-					firstStart=false;
-					}
-				
+				if (firstStart && position == 0)
+				{
+					drawMoveCircle(0);
+					firstStart = false;
+				}
+
 				LogUtil.w("初始化ViewPager");
 				((ViewPager) container).addView(views.get(position));
 				return views.get(position);
@@ -204,10 +208,11 @@ public class MainActivity extends BaseActivity
 		// 基本设置：平时加班，假日加班工资
 		// 工资结算日
 		// SQLite数据库设计 保存每日加班时间 查询
-		
-		 
+
 	}
+
 	private int dateType;
+
 	public String getToday()
 	{
 		return today;
@@ -232,55 +237,56 @@ public class MainActivity extends BaseActivity
 
 	private static final int SALARY_MONTH = 1;
 	private static final int SALARY_WEEK = 2;
-	                                      //1 2  3  4 5  6  7   8  9  10 11 12
+	// 1 2 3 4 5 6 7 8 9 10 11 12
 	/**
 	 * 每个月的日总数
 	 */
-	private int monthTotalDays[]=new int[]{31,29,31,30,31,30,31,31,30,31,30,31};
+	private int monthTotalDays[] = new int[] { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
 	/**
 	 * 判断是否是闰年
 	 * 
 	 * @param year
 	 *            年份
-	 * @return 
-	 *            true是闰年，false不是闰年
+	 * @return true是闰年，false不是闰年
 	 */
 	public boolean isLeapYear(int year)
 	{
-		return year % 400 == 0||(year % 4 == 0 && year % 100 != 0)   ? true : false;
+		return year % 400 == 0 || (year % 4 == 0 && year % 100 != 0) ? true : false;
 
 	}
 
 	private String startDate;
 	private String endDate;
 	private String dateRange;
+
 	/**
 	 * @return 日期段
 	 */
 	public String getDateRange(int dateRangeId)
 	{
-       
+
 		dateRange = "12月15-12月21";
 		Date date = new Date();
-		 //闰年二月：28 29
-		if(isLeapYear(date.getYear()+1900))
-			{
-				monthTotalDays[1]=28;
-			}
+		// 闰年二月：28 29
+		if (isLeapYear(date.getYear() + 1900))
+		{
+			monthTotalDays[1] = 28;
+		}
 		switch (dateRangeId)
 		{
 		// 本月
 		// TODO:(用户设置的月结工资日)
 		case SALARY_MONTH:
 		case 0:
-			int year=date.getYear()+1900;
-			String month=oneBitadd0(date.getMonth()+ 1);
-			startDate=year+month+"01";						
-			endDate=year+month + monthTotalDays[date.getMonth()];
-			
-			LogUtil.e("[getDateRange]  startDate="+startDate);
-			LogUtil.e("[getDateRange]  endDate="+endDate);
-			
+			int year = date.getYear() + 1900;
+			String month = oneBitadd0(date.getMonth() + 1);
+			startDate = year + month + "01";
+			endDate = year + month + monthTotalDays[date.getMonth()];
+
+			LogUtil.e("[getDateRange]  startDate=" + startDate);
+			LogUtil.e("[getDateRange]  endDate=" + endDate);
+
 			dateRange = month + "月1-" + month + "月" + monthTotalDays[date.getMonth()];
 			break;
 		// TODO 本周
@@ -296,28 +302,30 @@ public class MainActivity extends BaseActivity
 	 */
 	public String oneBitadd0(int month)
 	{
-		return month<10?"0"+month:month+"";
+		return month < 10 ? "0" + month : month + "";
 	}
+
 	/**
 	 * 当周日期
+	 * 
 	 * @return
 	 */
 	public String getCurrentWeek()
 	{
-		StringBuffer stringBuffer=new StringBuffer();
+		StringBuffer stringBuffer = new StringBuffer();
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat df = new SimpleDateFormat("MM月dd");
 		SimpleDateFormat dfSql = new SimpleDateFormat("yyyyMMdd");
 		// 获取本周一的日期
-		cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY); 
+		cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 		stringBuffer.append(df.format(cal.getTime()));
-		startDate=dfSql.format(cal.getTime());
+		startDate = dfSql.format(cal.getTime());
 		// 这种输出的是上个星期周日的日期，因为老外那边把周日当成第一天
 		cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 		// 增加一个星期，才是我们中国人理解的本周日的日期
 		cal.add(Calendar.WEEK_OF_YEAR, 1);
 		stringBuffer.append("-").append(df.format(cal.getTime()));
-		endDate=dfSql.format(cal.getTime());		
+		endDate = dfSql.format(cal.getTime());
 		return stringBuffer.toString();
 	}
 
@@ -339,10 +347,11 @@ public class MainActivity extends BaseActivity
 	private static final int N = 1;
 	// 绘制一段圆环的时间ms
 	private static final int TIME = 10;
-    float salaryTv;
-	
-    private static final boolean OVER_TIME_SALARY=true;
-    private static final boolean NOT_OVERTIME_SALARY=false;
+	float salaryTv;
+
+	private static final boolean OVER_TIME_SALARY = true;
+	private static final boolean NOT_OVERTIME_SALARY = false;
+
 	/**
 	 * 实时画圆环
 	 * 
@@ -351,40 +360,44 @@ public class MainActivity extends BaseActivity
 	 */
 	public void drawMoveCircle(final int roundId)
 	{
-		
+
 		new Thread(new Runnable()
 		{
 
 			@Override
 			public void run()
 			{
-				LogUtil.w("startDate="+startDate+" endDate="+endDate);
+				LogUtil.w("startDate=" + startDate + " endDate=" + endDate);
 				switch (roundId)
 				{
-					//本月总收入
+				// 本月总收入
 				case TOTAL:
 					getDateRange(roundId);
 					mRoundProgressBar = (RoundProgressBar) findViewById(R.id.roundProgressBar_salary_month_total);
-					salaryTv=overTimeDao.calOvertimeSalary(Integer.parseInt(startDate), Integer.parseInt(endDate),NOT_OVERTIME_SALARY);
+					salaryTv = overTimeDao.calOvertimeSalary(Integer.parseInt(startDate), Integer.parseInt(endDate),
+							NOT_OVERTIME_SALARY);
 					break;
-					//本月加班总收入
+				// 本月加班总收入
 				case MONTH_ADD:
 					getDateRange(roundId);
 					mRoundProgressBar = (RoundProgressBar) findViewById(R.id.roundProgressBar_salary_month_overtime);
-					//开始结束日期
-					salaryTv=overTimeDao.calOvertimeSalary(Integer.parseInt(startDate), Integer.parseInt(endDate),OVER_TIME_SALARY);
+					// 开始结束日期
+					salaryTv = overTimeDao.calOvertimeSalary(Integer.parseInt(startDate), Integer.parseInt(endDate),
+							OVER_TIME_SALARY);
 					break;
 				case WEEK_ADD:
 					getDateRange(roundId);
 					mRoundProgressBar = (RoundProgressBar) findViewById(R.id.roundProgressBar_salary_week);
-					
-					salaryTv=overTimeDao.calOvertimeSalary(Integer.parseInt(startDate), Integer.parseInt(endDate),OVER_TIME_SALARY);				
+
+					salaryTv = overTimeDao.calOvertimeSalary(Integer.parseInt(startDate), Integer.parseInt(endDate),
+							OVER_TIME_SALARY);
 					break;
 				}
 				progress = 0;
-				//Create:20141226
-				if(mRoundProgressBar==null) return;
-				
+				// Create:20141226
+				if (mRoundProgressBar == null)
+					return;
+
 				mRoundProgressBar.setProgress(progress);
 				// 设置时间段
 				mRoundProgressBar.setDateRange(dateRange);
@@ -392,18 +405,18 @@ public class MainActivity extends BaseActivity
 				mRoundProgressBar.setSalary(String.valueOf(salaryTv));
 				// 通过线程控制绘制速度
 				while (progress <= MAX)
-					{
-						progress += N;
-						mRoundProgressBar.setProgress(progress);
+				{
+					progress += N;
+					mRoundProgressBar.setProgress(progress);
 
-						try
-							{
-								Thread.sleep(TIME);
-							} catch (InterruptedException e)
-							{
-								e.printStackTrace();
-							}
+					try
+					{
+						Thread.sleep(TIME);
+					} catch (InterruptedException e)
+					{
+						e.printStackTrace();
 					}
+				}
 
 			}
 		}).start();
@@ -417,8 +430,8 @@ public class MainActivity extends BaseActivity
 		// 记加班
 		case R.id.btn_record_overtime:
 			intent = new Intent(MainActivity.this, SelectDateActivity.class);
-			intent.putExtra("date",today);//显示给用户
-			intent.putExtra("dateSave",dateSave);//保存到数据库
+			intent.putExtra("date", today);// 显示给用户
+			intent.putExtra("dateSave", dateSave);// 保存到数据库
 			intent.putExtra("dateType", dateType);
 			startActivity(intent);
 			break;
@@ -427,60 +440,46 @@ public class MainActivity extends BaseActivity
 		case R.id.btn_left_menu:
 			LogUtil.e("clickView btn_left_menu ");
 			if (slideMenu.isMainScreenShowing())
-				{
-					slideMenu.openMenu();
-				} else
-				{
-					slideMenu.closeMenu();
-				}
+			{
+				slideMenu.openMenu();
+			} else
+			{
+				slideMenu.closeMenu();
+			}
 			break;
-			//我的工资条
+		// 我的工资条
 		case R.id.tv_my_salary:
 			Toast.makeText(context, "我的工资条", Toast.LENGTH_LONG).show();
 			break;
-			//月工资预估
+		// 月工资预估
 		case R.id.tv_salary_month_forecast:
 			Toast.makeText(context, "月工资预估", Toast.LENGTH_LONG).show();
 			break;
-			//日历
+		// 日历
 		case R.id.btn_calendar:
-			intent=new Intent(MainActivity.this, CalendarActivity.class);
+			intent = new Intent(MainActivity.this, CalendarActivity.class);
 			startActivity(intent);
 			break;
-			//统计
+		// 统计
 		case R.id.btn_summary:
-			//Toast.makeText(context, "统计", Toast.LENGTH_LONG).show();
-			intent=new Intent(MainActivity.this, SummaryActivity.class);
+			// Toast.makeText(context, "统计", Toast.LENGTH_LONG).show();
+			intent = new Intent(MainActivity.this, SummaryActivity.class);
 			startActivity(intent);
 			break;
-			//设置
+		// 设置
 		case R.id.btn_setup:
-			intent=new Intent(MainActivity.this, SetupActivity.class);
+			intent = new Intent(MainActivity.this, SetupActivity.class);
 			startActivity(intent);
 			break;
 		}
 
-	}	
+	}
+
 	/**
 	 * @return the slidingPaneLayout
 	 */
-	public SlidingPaneLayout getSlidingPaneLayout() {
+	public SlidingPaneLayout getSlidingPaneLayout()
+	{
 		return slidingPaneLayout;
 	}
 }
-
-/*
- * To 初学者 很多初学者的误区，认为做开发需要了解数据结构、编程思想等知识才行，而自己不是科班出身，恐怕未来无法胜任开发工作。
- * 这是不需要担心的。软件开发大体可分两类，一类是面向开发者的软件，比如JDK、Android
- * SDK等等的开发工具，另一类是面向用户的，比如Android应用工程师。
- * 绝大多数开发者做的是应用软件，面向的是普通用户，对于这类开发者，重要的是业务领域知识以及SDK的用法。
- * 对于大多数应用开发工程师而言，只要会使用SDK里提供的数据结构、算法就可以了。
- * 要了解底层、编程思想、数据结构、算法等等，这些对SDK的开发者来说才是有直接价值的。
- * 他们是需要的。但如果要成为一个高手，你说的这些知识当然也要有，但不是初中级开发者必须具备的。
- * 
- * 最后一点，高效率的学习方法，我的经验是，最好是有经验的人教你，其次是看视频，最后是看书。
- * 编程是一项技能，跟游泳开车一样，提升技能最重要的不是背诵理论，而在于反复实践，达到孰能生巧。
- * 
- * 目前主流的技术体系里，JAVA EE、.net php 嵌入式 iOS
- * Android，Android和iOS是非常适合初中级开发者选择的，至少在3年内，是很好的选择，无论前途还是钱途。
- */

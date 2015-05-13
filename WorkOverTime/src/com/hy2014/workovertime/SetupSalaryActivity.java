@@ -58,39 +58,38 @@ public class SetupSalaryActivity extends BaseActivity
 		switch (view.getId())
 		{
 		case R.id.tv_month_base_salary:
-		
-			
+
 			LogUtil.e("click tv_month_base_salary");
 			edtMonthSalary = new EditText(context);
-			
+
 			edtMonthSalary.setInputType(android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
 			AlertDialog.Builder builder = new AlertDialog.Builder(context);
 			builder.setView(edtMonthSalary);
 			builder.setTitle("输入月基本工资");
-			builder.setPositiveButton("保存", new  DialogInterface.OnClickListener(){
+			builder.setPositiveButton("保存", new DialogInterface.OnClickListener()
+			{
 
 				@Override
 				public void onClick(DialogInterface dialog, int which)
 				{
-					Float baseSalary=Float.parseFloat(edtMonthSalary.getText().toString().trim());	
+					Float baseSalary = Float.parseFloat(edtMonthSalary.getText().toString().trim());
 					try
-						{
-							settingDao.updateBaseSalary(baseSalary);
-						
-							tvMonthBaseSalary.setText(	"月基本工资 " + baseSalary + "元");
-						} catch (Exception e)
-						{
-							// TODO: handle exception
-						}
-					
-					
+					{
+						settingDao.updateBaseSalary(baseSalary);
+
+						tvMonthBaseSalary.setText("月基本工资 " + baseSalary + "元");
+					} catch (Exception e)
+					{
+						// TODO: handle exception
+					}
+
 				}
-				
+
 			});
-			builder.setNegativeButton("取消",null);
+			builder.setNegativeButton("取消", null);
 			AlertDialog dialog = builder.create();
 			dialog.show();
-			
+
 			break;
 
 		case R.id.linLay_set_salary:
