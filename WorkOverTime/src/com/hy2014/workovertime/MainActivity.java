@@ -17,8 +17,8 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v4.widget.SlidingPaneLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
-
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -90,7 +90,6 @@ public class MainActivity extends BaseActivity
 			{
 			// 本月总收入
 			case TOTAL:
-
 				drawMoveCircle(TOTAL);// 实时画圆环
 				img1_salary_month_total.setImageResource(R.drawable.page_indicator_focused);
 				img2_salary_month_overtime.setImageResource(R.drawable.page_indicator);
@@ -351,11 +350,14 @@ public class MainActivity extends BaseActivity
 	private static final int N = 1;
 	// 绘制一段圆环的时间ms
 	private static final int TIME = 10;
+	/**
+	 * 加班工资总额
+	 */
 	float salaryTv;
 
 	private static final boolean OVER_TIME_SALARY = true;
-	private static final boolean NOT_OVERTIME_SALARY = false;
-
+	private static final boolean NOT_OVERTIME_SALARY = false;	
+	float[][] salaryAndHours=new float[2][1];
 	/**
 	 * 实时画圆环
 	 * 
@@ -364,10 +366,8 @@ public class MainActivity extends BaseActivity
 	 */
 	public void drawMoveCircle(final int roundId)
 	{
-
 		new Thread(new Runnable()
 		{
-
 			@Override
 			public void run()
 			{
@@ -378,30 +378,41 @@ public class MainActivity extends BaseActivity
 				case TOTAL:
 					getDateRange(roundId);
 					mRoundProgressBar = (RoundProgressBar) findViewById(R.id.roundProgressBar_salary_month_total);
-					salaryTv = overTimeDao.calOvertimeSalary(Integer.parseInt(startDate), Integer.parseInt(endDate),
+					 salaryAndHours= overTimeDao.calOvertimeSalary(Integer.parseInt(startDate), Integer.parseInt(endDate),
 							NOT_OVERTIME_SALARY);
+					salaryTv=salaryAndHours[0][0];
+					overtimeHours=salaryAndHours[1][0];
 					break;
 				// 本月加班总收入
 				case MONTH_ADD:
 					getDateRange(roundId);
 					mRoundProgressBar = (RoundProgressBar) findViewById(R.id.roundProgressBar_salary_month_overtime);
 					// 开始结束日期
-					salaryTv = overTimeDao.calOvertimeSalary(Integer.parseInt(startDate), Integer.parseInt(endDate),
+					/*salaryTv*/salaryAndHours = overTimeDao.calOvertimeSalary(Integer.parseInt(startDate), Integer.parseInt(endDate),
 							OVER_TIME_SALARY);
+					salaryTv=salaryAndHours[0][0];
+					overtimeHours=salaryAndHours[1][0];
 					break;
 				case WEEK_ADD:
 					getDateRange(roundId);
 					mRoundProgressBar = (RoundProgressBar) findViewById(R.id.roundProgressBar_salary_week);
 
-					salaryTv = overTimeDao.calOvertimeSalary(Integer.parseInt(startDate), Integer.parseInt(endDate),
+					/*salaryTv*/salaryAndHours = overTimeDao.calOvertimeSalary(Integer.parseInt(startDate), Integer.parseInt(endDate),
 							OVER_TIME_SALARY);
+					salaryTv=salaryAndHours[0][0];
+					overtimeHours=salaryAndHours[1][0];
 					break;
 				}
 				progress = 0;
+				LogUtil.d("salaryTv="+salaryTv+" overtimeHours="+overtimeHours);
 				// Create:20141226
 				if (mRoundProgressBar == null)
+				{
+					LogUtil.e("无法显示工时，mRoundProgressBar == null");
 					return;
-
+				}	
+				//设置工时
+				mRoundProgressBar.setOvertimeHours(overtimeHours);
 				mRoundProgressBar.setProgress(progress);
 				// 设置时间段
 				mRoundProgressBar.setDateRange(dateRange);

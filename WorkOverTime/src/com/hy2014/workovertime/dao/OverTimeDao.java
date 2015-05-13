@@ -37,10 +37,11 @@ public class OverTimeDao implements BaseDao
 	 *            结束日期 8位整数
 	 * @param isOvertimeSalary
 	 *            true计算加班工资,false计算总工资
-	 * @return
+	 * @return  加班工资总额
 	 */
-	public float calOvertimeSalary(int fromDate, int toDate, boolean isOvertimeSalary)
+	public float[][] calOvertimeSalary(int fromDate, int toDate, boolean isOvertimeSalary)
 	{
+		float[][] salaryAndHours=new float[2][1];
 		// String sql =
 		// "select hours from overTimeTb where date>=  ? and date<=? and dateType=";
 		String sql = "select hours from overTimeTb where date between  ? and ? and dateType=";
@@ -66,6 +67,7 @@ public class OverTimeDao implements BaseDao
 		try
 		{
 			cursor = db.rawQuery(sql + "1", new String[] { String.valueOf(fromDate), String.valueOf(toDate) });
+			//求工时总数
 			while (cursor.moveToNext())
 			{
 				normalHours += cursor.getFloat(0);
@@ -83,8 +85,15 @@ public class OverTimeDao implements BaseDao
 				holidayHours += cursor.getFloat(0);
 			}
 			LogUtil.i("holidayHours=" + normalHours);
-			return isOvertimeSalary ? (normalHours * normalSalry + weekHours * weekSalry + holidayHours * holidaySalry)
-					: (normalHours * normalSalry + weekHours * weekSalry + holidayHours * holidaySalry + baseSlary);
+	     	if(isOvertimeSalary){
+				salaryAndHours[0][0]=normalHours * normalSalry + weekHours * weekSalry + holidayHours * holidaySalry;
+				salaryAndHours[1][0]=normalHours+weekHours+holidayHours;
+			}else {
+				salaryAndHours[0][0]=normalHours * normalSalry + weekHours * weekSalry + holidayHours * holidaySalry + baseSlary;
+				salaryAndHours[1][0]=normalHours+weekHours+holidayHours+baseSlary;
+			}
+		/*	return isOvertimeSalary ? (normalHours * normalSalry + weekHours * weekSalry + holidayHours * holidaySalry)
+					: (normalHours * normalSalry + weekHours * weekSalry + holidayHours * holidaySalry + baseSlary);*/
 
 		} catch (Exception e)
 		{
@@ -98,7 +107,7 @@ public class OverTimeDao implements BaseDao
 			db.close();
 		}
 
-		return 0.0F;
+		return salaryAndHours/*0.0F*/;
 	}
 
 	/**
@@ -146,8 +155,8 @@ public class OverTimeDao implements BaseDao
 	/**
 	 * (non-Javadoc)
 	 * 
-	 * @see com.hy2014.workovertime.dao.BaseDao#add(java.lang.String[]) data：
-	 *      1日期 2日期类型 3加班时数 4加班开始时间 5加班结束时间
+	 * @see com.hy2014.workovertime.dao.BaseDao#add(java.lang.String[])
+	 *  data[]：     1日期 2日期类型 3加班时数 4加班开始时间 5加班结束时间
 	 */
 	@Override
 	public boolean add(String[] data)
@@ -166,6 +175,7 @@ public class OverTimeDao implements BaseDao
 				db.execSQL(sqlUpdate);
 			} else
 			{
+				LogUtil.i("插入加班工时记录");
 				// 插入
 				db.execSQL(sql, data);
 			}

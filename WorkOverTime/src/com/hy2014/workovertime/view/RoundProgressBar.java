@@ -23,11 +23,14 @@ import android.view.View;
 public class RoundProgressBar extends View
 {
 	private Context context;
-
+	/**加班工时**/
+	private float overtimeHours=100.0F;
 	/**
 	 * 画笔对象的引用
 	 */
 	private Paint paint;
+
+	
 
 	/**
 	 * 圆环的颜色
@@ -176,7 +179,7 @@ public class RoundProgressBar extends View
 		paint.setColor(0xff000000);
 		paint.setTextSize(35);
 		//paint.setTypeface(Typeface.DEFAULT_BOLD); // 设置字体
-		textWidth = paint.measureText("100.0小时"); // 测量字体宽度，我们需要根据字体的宽度设置在圆环中间
+		textWidth = paint.measureText(String.valueOf(overtimeHours)+"小时"); // 测量字体宽度，我们需要根据字体的宽度设置在圆环中间
 		canvas.drawText("100.0小时", centerX - textWidth / 2, centerY + textSize / 2 + 50, paint);
 
 		/**
@@ -339,6 +342,7 @@ public class RoundProgressBar extends View
 	{
 		this.roundWidth = roundWidth;
 	}
+	/**************设置日期范围****************/
 	public String getDateRange()
 	{
 		return dateRange;
@@ -347,5 +351,15 @@ public class RoundProgressBar extends View
 	public void setDateRange(String dateRange)
 	{
 		this.dateRange = dateRange;
+	}
+	/*****************设置加班工时*****************/
+	public float getOvertimeHours()
+	{
+		return overtimeHours;
+	}
+
+	public void setOvertimeHours(float overtimeHours)
+	{
+		this.overtimeHours = overtimeHours;
 	}
 }
