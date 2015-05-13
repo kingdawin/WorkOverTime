@@ -5,7 +5,8 @@ record work overtime 记加班安卓App
 日历控件https://github.com/square/android-times-square
 
 功能：
-1实时画圆环控件RoundProgressBar，继承view重写onDraw方法：外圆空心，内圆实心，圆环通过线程控制速度。
+
+1 实时画圆环控件RoundProgressBar，继承view重写onDraw方法：外圆空心，内圆实心，圆环通过线程控制速度。
 控件属性的自定义和使用：values文件夹下创建attrs文件
 
 2获取当天日期，setToday()
