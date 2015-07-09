@@ -21,6 +21,9 @@ import android.os.Bundle;
 
 /**
  * @author KingDawin
+ *git@github.com:kingdawin/WorkOverTime.git
+ *
+ *(http://github.com/kingdawin/WorkOverTime/raw/master/images-folder/xxx.png)
  *
  */
 public class CalendarActivity extends BaseActivity
