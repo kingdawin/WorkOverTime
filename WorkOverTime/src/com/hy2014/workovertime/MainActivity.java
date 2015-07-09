@@ -240,6 +240,7 @@ public class MainActivity extends BaseActivity
 
 	private static final int SALARY_MONTH = 1;
 	private static final int SALARY_WEEK = 2;
+	
 	// 1 2 3 4 5 6 7 8 9 10 11 12
 	/**
 	 * 每个月的日总数
@@ -379,7 +380,7 @@ public class MainActivity extends BaseActivity
 					getDateRange(roundId);
 					mRoundProgressBar = (RoundProgressBar) findViewById(R.id.roundProgressBar_salary_month_total);
 					 salaryAndHours= overTimeDao.calOvertimeSalary(Integer.parseInt(startDate), Integer.parseInt(endDate),
-							NOT_OVERTIME_SALARY);
+							0);
 					salaryTv=salaryAndHours[0][0];
 					overtimeHours=salaryAndHours[1][0];
 					break;
@@ -389,7 +390,7 @@ public class MainActivity extends BaseActivity
 					mRoundProgressBar = (RoundProgressBar) findViewById(R.id.roundProgressBar_salary_month_overtime);
 					// 开始结束日期
 					/*salaryTv*/salaryAndHours = overTimeDao.calOvertimeSalary(Integer.parseInt(startDate), Integer.parseInt(endDate),
-							OVER_TIME_SALARY);
+							1);
 					salaryTv=salaryAndHours[0][0];
 					overtimeHours=salaryAndHours[1][0];
 					break;
@@ -398,7 +399,7 @@ public class MainActivity extends BaseActivity
 					mRoundProgressBar = (RoundProgressBar) findViewById(R.id.roundProgressBar_salary_week);
 
 					/*salaryTv*/salaryAndHours = overTimeDao.calOvertimeSalary(Integer.parseInt(startDate), Integer.parseInt(endDate),
-							OVER_TIME_SALARY);
+							2);
 					salaryTv=salaryAndHours[0][0];
 					overtimeHours=salaryAndHours[1][0];
 					break;

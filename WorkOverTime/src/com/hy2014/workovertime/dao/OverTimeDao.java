@@ -35,15 +35,19 @@ public class OverTimeDao implements BaseDao
 	 *            开始日期 8位整数
 	 * @param toDate
 	 *            结束日期 8位整数
-	 * @param isOvertimeSalary
+	 * @param typeNo
+	 *      //本月总收入0
+			
+			//本月加班收入1
+			
+			//本周加班收入2
+			 * 
 	 *            true计算加班工资,false计算总工资
 	 * @return  加班工资总额
 	 */
-	public float[][] calOvertimeSalary(int fromDate, int toDate, boolean isOvertimeSalary)
+	public float[][] calOvertimeSalary(int fromDate, int toDate, int typeNo/*boolean isOvertimeSalary*/)
 	{
 		float[][] salaryAndHours=new float[2][1];
-		// String sql =
-		// "select hours from overTimeTb where date>=  ? and date<=? and dateType=";
 		String sql = "select hours from overTimeTb where date between  ? and ? and dateType=";
 		float normalHours = 0;
 		float weekHours = 0;
@@ -51,17 +55,16 @@ public class OverTimeDao implements BaseDao
 		db = helper.getWritableDatabase();
 
 		SettingDao settingDao = new SettingDao(context);
-		// settingDao.add(new
-		// String[]{String.valueOf(11.0),String.valueOf(15.0),String.valueOf(30.0),String.valueOf(5000.0)});
 		float salarys[] = settingDao.getSalarys();
+		//平时加班每小时工资
 		final float normalSalry = salarys[1];
-		// LogUtil.e("平时工资---->"+normalSalry);
-		final float weekSalry = salarys[2];
-		// LogUtil.e("周末工资---->"+weekSalry);
+		//周末加班每小时工资
+		final float weekSalry = salarys[2];		
+		//假日加班每小时工资
 		final float holidaySalry = salarys[3];
-		// LogUtil.e("假日工资---->"+holidaySalry);
+		//基本工资
 		final float baseSlary = salarys[0];
-		// LogUtil.e("基本工资---->"+baseSlary);
+		LogUtil.d("平时加班每小时工资="+normalSalry+" 周末加班每小时工资="+weekSalry+" 假日加班每小时工资="+holidaySalry+" 基本工资="+baseSlary);
 		Cursor cursor = null;
 		// big bang boom
 		try
@@ -84,16 +87,26 @@ public class OverTimeDao implements BaseDao
 			{
 				holidayHours += cursor.getFloat(0);
 			}
-			LogUtil.i("holidayHours=" + normalHours);
-	     	if(isOvertimeSalary){
+			LogUtil.i("holidayHours=" + normalHours);			
+			
+			switch (typeNo)
+			{
+			// 本周加班收入
+			case 2:
+				salaryAndHours[0][0]= weekHours * weekSalry ;
+				salaryAndHours[1][0]=weekHours;
+				break;
+			// 本月加班收入
+			case 1:
 				salaryAndHours[0][0]=normalHours * normalSalry + weekHours * weekSalry + holidayHours * holidaySalry;
 				salaryAndHours[1][0]=normalHours+weekHours+holidayHours;
-			}else {
+				break;
+			// 本月总收入
+			case 0:
 				salaryAndHours[0][0]=normalHours * normalSalry + weekHours * weekSalry + holidayHours * holidaySalry + baseSlary;
-				salaryAndHours[1][0]=normalHours+weekHours+holidayHours+baseSlary;
+				salaryAndHours[1][0]=normalHours+weekHours+holidayHours;
+				break;
 			}
-		/*	return isOvertimeSalary ? (normalHours * normalSalry + weekHours * weekSalry + holidayHours * holidaySalry)
-					: (normalHours * normalSalry + weekHours * weekSalry + holidayHours * holidaySalry + baseSlary);*/
 
 		} catch (Exception e)
 		{

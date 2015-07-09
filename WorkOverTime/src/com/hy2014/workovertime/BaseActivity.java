@@ -14,7 +14,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.widget.ProgressBar;
-
+//基类
 public class BaseActivity extends Activity
 {
 	public Context context;
