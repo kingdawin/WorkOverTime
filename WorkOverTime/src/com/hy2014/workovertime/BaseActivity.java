@@ -15,7 +15,7 @@ import android.os.Looper;
 import android.view.View;
 import android.widget.ProgressBar;
 /**Activity基类
- * ![](https://github.com/kingdawin/WorkOverTime/raw/master/scrennshot.gif)
+ * ![](https://github.com/kingdawin/WorkOverTime/raw/master/scrennshot.png)
  * */
 public class BaseActivity extends Activity
 {
