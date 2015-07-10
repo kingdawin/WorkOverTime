@@ -33,4 +33,3 @@ record work overtime 记加班安卓App
 
 - 设置模块:设置基本工资，平时工资，周末工资，假日工资。刷新界面数据
 
-![](http://github.com/kingdawin/WorkOverTime/raw/master/screenshot.png)
