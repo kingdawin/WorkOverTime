@@ -1,5 +1,9 @@
 # WorkOverTime
 record work overtime 记加班安卓App
+
+
+![](https://github.com/kingdawin/WorkOverTime/raw/master/scrennshot.gif)
+
 依赖库:
 日历控件https://github.com/square/android-times-square
 
